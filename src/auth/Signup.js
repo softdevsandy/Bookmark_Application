@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import firebase from "firebase";
 import { auth } from "../firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { UserContext } from "../contexts/userContext";
+
+import { makeStyles } from "@material-ui/core";
 
 var uiConfig = {
   signInFlow: "popup",
@@ -25,46 +28,43 @@ var uiConfig = {
   },
 };
 
-function Signup() {
-  const [user, setUser] = React.useState(null);
+const useStyles = makeStyles((theme) => ({
+  signUp: {
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    background:
+      'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url("https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260")',
+    backgroundSize: "cover",
+    fontSize: "25px",
+  },
+  welcomeText: {
+    maxWidth: "500px",
+  },
+}));
 
-  const signOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(function () {
-        console.log("Successfully signout");
-        setUser(null);
-      })
-      .catch(function () {
-        console.log("Error signout");
-      });
-  };
+function Signup() {
+  const { updateUser } = useContext(UserContext);
+  const classes = useStyles();
 
   React.useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       // console.log(db);
-      console.log("THE USER IS >>> ", authUser);
+      // console.log(authUser);
       if (authUser) {
-        setUser(authUser);
+        updateUser(authUser);
       }
     });
-  }, []);
+  });
 
   return (
-    <div>
-      {user ? (
-        <div>
-          Welcome back {user.displayName}
-          <br />
-          <button onClick={signOut}>Sign Out</button>
-        </div>
-      ) : (
-        <StyledFirebaseAuth
-          uiConfig={uiConfig}
-          firebaseAuth={firebase.auth()}
-        />
-      )}
+    <div className={classes.signUp}>
+      <div className={classes.welcomeText}>
+        Keep your Important Links in one place and Open anywhere.
+      </div>
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
     </div>
   );
 }
