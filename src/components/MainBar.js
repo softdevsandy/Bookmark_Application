@@ -18,13 +18,11 @@ import CategoryIcon from "@material-ui/icons/Category";
 import firebase from "firebase";
 import { UserContext } from "../contexts/userContext";
 import { Avatar, MenuItem, Menu } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import useAutocomplete from "@material-ui/lab/useAutocomplete";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 
-const drawerWidth = 230;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,6 +88,50 @@ const useStyles = makeStyles((theme) => ({
       width: "20ch",
     },
   },
+  listbox: {
+    display: "block",
+    padding: 5,
+    marginLeft: 24,
+    marginTop: 5,
+    width: 240,
+    borderRadius: "5px",
+    listStyleType: "none",
+    zIndex: 1,
+    position: "absolute",
+    listStyle: "none",
+    backgroundColor: "#4C585C",
+    overflow: "auto",
+    maxHeight: 250,
+  },
+  listbox1: {
+    display: "block",
+    padding: 5,
+    marginLeft: 5,
+    marginTop: 0,
+    width: 240,
+    borderRadius: "5px",
+    listStyleType: "none",
+    zIndex: 1,
+    position: "absolute",
+    listStyle: "none",
+    backgroundColor: "#4C585C",
+    overflow: "auto",
+    maxHeight: 250,
+  },
+  list: {
+    cursor: "pointer",
+    padding: 0,
+    margin: 5,
+  },
+  link: {
+    fontSize: "15px",
+    textDecoration: "none",
+    // display: "inline-block",
+    height: "100%",
+    width: "100%",
+    color: "white",
+    // justifyContent: "center",
+  },
 }));
 
 export default function MainBar() {
@@ -129,6 +171,16 @@ export default function MainBar() {
       });
   };
 
+  const {
+    getInputProps,
+    getListboxProps,
+    getOptionProps,
+    groupedOptions,
+  } = useAutocomplete({
+    id: "use-autocomplete-demo",
+    options: top100Films,
+    getOptionLabel: (option) => option.title,
+  });
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -159,9 +211,32 @@ export default function MainBar() {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
+                {...getInputProps()}
                 inputProps={{ "aria-label": "search" }}
               />
             </div>
+            {groupedOptions.length > 0 ? (
+              <List {...getListboxProps()} className={classes.listbox}>
+                {groupedOptions.map((option, index) => (
+                  <ListItem
+                    {...getOptionProps({ option, index })}
+                    className={classes.list}
+                  >
+                    <a className={classes.link} href={option.url}>
+                      <img
+                        src={option.img}
+                        alt=""
+                        width="18px"
+                        height="20px"
+                        style={{ paddingTop: "5px", marginRight: "5px" }}
+                      />
+
+                      {option.title}
+                    </a>
+                  </ListItem>
+                ))}
+              </List>
+            ) : null}
           </div>
 
           {/* 👤 Profile icon  */}
@@ -228,18 +303,43 @@ export default function MainBar() {
           </IconButton>
         </div>
         <Divider />
-        <div className={classes.search} style={{ margin: "10px" }}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
+        <div className="">
+          <div className={classes.search} style={{ margin: "10px" }}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search Bookmarks"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              {...getInputProps()}
+              inputProps={{ "aria-label": "search" }}
+            />
           </div>
-          <InputBase
-            placeholder="Search Bookmarks"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ "aria-label": "search" }}
-          />
+          {groupedOptions.length > 0 ? (
+            <List {...getListboxProps()} className={classes.listbox1}>
+              {groupedOptions.map((option, index) => (
+                <ListItem
+                  {...getOptionProps({ option, index })}
+                  className={classes.list}
+                >
+                  <a className={classes.link} href={option.url}>
+                    <img
+                      src={option.img}
+                      alt=""
+                      width="18px"
+                      height="20px"
+                      style={{ paddingTop: "5px", marginRight: "5px" }}
+                    />
+
+                    {option.title}
+                  </a>
+                </ListItem>
+              ))}
+            </List>
+          ) : null}
         </div>
         <Divider />
         <List>
@@ -273,9 +373,19 @@ export default function MainBar() {
 // </List>
 
 const top100Films = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-  { title: "The Godfather: Part II", year: 1974 },
-  { title: "The Dark Knight", year: 2008 },
-  { title: "12 Angry Men", year: 1957 },
+  {
+    title: "Google ",
+    url: "https://google.com",
+    img: "https://www.google.com/favicon.ico",
+  },
+  {
+    title: "Material-ui",
+    url: "https://material-ui.com",
+    img: "https://material-ui.com/static/icons/180x180.png",
+  },
+  {
+    title: "SoftDevSandy",
+    url: "https://softdevsandy.me",
+    img: "https://softdevsandy.me/favicon.ico",
+  },
 ];
