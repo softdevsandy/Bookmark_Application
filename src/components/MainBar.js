@@ -222,7 +222,12 @@ export default function MainBar() {
                     {...getOptionProps({ option, index })}
                     className={classes.list}
                   >
-                    <a className={classes.link} href={option.url}>
+                    <a
+                      className={classes.link}
+                      href={option.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <img
                         src={option.img}
                         alt=""
@@ -325,7 +330,12 @@ export default function MainBar() {
                   {...getOptionProps({ option, index })}
                   className={classes.list}
                 >
-                  <a className={classes.link} href={option.url}>
+                  <a
+                    className={classes.link}
+                    href={option.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <img
                       src={option.img}
                       alt=""
