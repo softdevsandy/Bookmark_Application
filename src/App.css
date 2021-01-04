@@ -1,6 +1,80 @@
 .App {
-  text-align: center;
   background-color: #282c34;
   min-height: 100vh;
   color: white;
+}
+
+.MuiToolbar-gutters {
+  padding-right: 10px !important;
+}
+@media (min-width: 600px) {
+  .MuiToolbar-gutters {
+    padding-left: 16px !important;
+  }
+}
+
+.MuiToolbar-regular {
+  min-height: 0px !important;
+}
+@media (min-width: 600px) {
+  .MuiToolbar-regular {
+    min-height: 0px !important;
+  }
+}
+
+.MuiPopover-paper {
+  color: #fff !important;
+  background-color: #2d3436 !important;
+}
+
+.MuiPaper-root {
+  color: #fff !important;
+  background-color: #2d3436 !important;
+}
+
+.MuiIconButton-root {
+  padding: 5px !important;
+}
+
+.MuiTypography-h6 {
+  padding-left: 5px !important;
+}
+
+.makeStyles-drawer-8 {
+  width: 0px !important;
+}
+
+.side {
+  display: block !important;
+}
+.search-box {
+  display: none;
+}
+@media (min-width: 600px) {
+  .side {
+    display: none !important;
+  }
+  .MuiTypography-h6 {
+    padding-left: 0px !important;
+  }
+  .search-box {
+    display: block;
+  }
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: white !important;
+}
+.MuiInputBase-input {
+  color: white !important;
+}
+.MuiFormLabel-root {
+  color: white !important;
+}
+.MuiFormLabel-root.Mui-focused {
+  color: white !important;
+}
+
+.MuiSvgIcon-root {
+  color: white !important;
 }
