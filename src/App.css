@@ -50,6 +50,12 @@
 .search-box {
   display: none;
 }
+.actinButton {
+  display: none !important;
+}
+.actionIcon {
+  color: #6a89cc !important;
+}
 @media (min-width: 600px) {
   .side {
     display: none !important;
@@ -59,6 +65,9 @@
   }
   .search-box {
     display: block;
+  }
+  .actinButton {
+    display: block !important;
   }
 }
 
@@ -75,6 +84,6 @@
   color: white !important;
 }
 
-.MuiSvgIcon-root {
+/* .MuiSvgIcon-root {
   color: white !important;
-}
+} */

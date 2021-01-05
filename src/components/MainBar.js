@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
+import { fade, makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,7 +9,6 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -21,6 +20,8 @@ import { Avatar, MenuItem, Menu } from "@material-ui/core";
 import useAutocomplete from "@material-ui/lab/useAutocomplete";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+import AddBookmarkDialog from "./dialogs/addBookmark";
+import AddCategoryDialog from "./dialogs/addCategory";
 
 const drawerWidth = 250;
 
@@ -136,7 +137,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MainBar() {
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -181,6 +181,22 @@ export default function MainBar() {
     options: top100Films,
     getOptionLabel: (option) => option.title,
   });
+
+  const [openB, setOpenB] = React.useState(false);
+  const [openC, setOpenC] = React.useState(false);
+
+  const BhandleOpen = () => {
+    setOpenB(true);
+  };
+  const BhandleClose = () => {
+    setOpenB(false);
+  };
+  const ChandleOpen = () => {
+    setOpenC(true);
+  };
+  const ChandleClose = () => {
+    setOpenC(false);
+  };
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -300,11 +316,7 @@ export default function MainBar() {
             Hi, {user.displayName}
           </div>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            <ChevronLeftIcon className="actionIcon" />
           </IconButton>
         </div>
         <Divider />
@@ -353,21 +365,23 @@ export default function MainBar() {
         </div>
         <Divider />
         <List>
-          <ListItem button>
+          <ListItem button style={{ color: "#6a89cc" }} onClick={BhandleOpen}>
             <ListItemIcon>
-              <BookmarkBorderIcon />
+              <BookmarkBorderIcon className="actionIcon" />
             </ListItemIcon>
             <ListItemText primary="Add Bookmark" />
           </ListItem>
-          <ListItem button>
+          <ListItem button style={{ color: "#6a89cc" }} onClick={ChandleOpen}>
             <ListItemIcon>
-              <CategoryIcon />
+              <CategoryIcon className="actionIcon" />
             </ListItemIcon>
             <ListItemText primary="Add Category" />
           </ListItem>
         </List>
         <Divider />
       </Drawer>
+      <AddBookmarkDialog open={openB} handleClose={BhandleClose} />
+      <AddCategoryDialog open={openC} handleClose={ChandleClose} />
     </div>
   );
 }
