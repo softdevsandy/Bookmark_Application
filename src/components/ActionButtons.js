@@ -8,8 +8,9 @@ import AddCategoryDialog from "./dialogs/addCategory";
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    color: "#6a89cc",
+    color: "#436BD9",
     margin: "5px",
+    flexGrow: 1,
   },
 }));
 function ActionButtons() {
@@ -32,7 +33,7 @@ function ActionButtons() {
   };
 
   return (
-    <div className="actinButton">
+    <div>
       <Button
         className={classes.button}
         startIcon={<BookmarkBorderIcon className="actionIcon" />}

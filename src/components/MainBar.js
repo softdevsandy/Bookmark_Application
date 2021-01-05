@@ -127,15 +127,13 @@ const useStyles = makeStyles((theme) => ({
   link: {
     fontSize: "15px",
     textDecoration: "none",
-    // display: "inline-block",
     height: "100%",
     width: "100%",
     color: "white",
-    // justifyContent: "center",
   },
 }));
 
-export default function MainBar() {
+export default function Main() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -157,7 +155,7 @@ export default function MainBar() {
     setAnchorEl(null);
   };
 
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser, pc } = useContext(UserContext);
   const signOut = () => {
     firebase
       .auth()
@@ -202,63 +200,66 @@ export default function MainBar() {
       <AppBar position="static">
         <Toolbar>
           {/* 💨 Menu Button  */}
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className="side"
-          >
-            <MenuIcon />
-          </IconButton>
+          {!pc && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
 
           <Typography variant="h6" className={classes.title}>
             My Bookmark's
           </Typography>
 
-          <div className="search-box">
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+          {pc && (
+            <div>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search Bookmarks"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  {...getInputProps()}
+                  inputProps={{ "aria-label": "search" }}
+                />
               </div>
-              <InputBase
-                placeholder="Search Bookmarks"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                {...getInputProps()}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
-            {groupedOptions.length > 0 ? (
-              <List {...getListboxProps()} className={classes.listbox}>
-                {groupedOptions.map((option, index) => (
-                  <ListItem
-                    {...getOptionProps({ option, index })}
-                    className={classes.list}
-                  >
-                    <a
-                      className={classes.link}
-                      href={option.url}
-                      target="_blank"
-                      rel="noreferrer"
+              {groupedOptions.length > 0 ? (
+                <List {...getListboxProps()} className={classes.listbox}>
+                  {groupedOptions.map((option, index) => (
+                    <ListItem
+                      {...getOptionProps({ option, index })}
+                      className={classes.list}
                     >
-                      <img
-                        src={option.img}
-                        alt=""
-                        width="18px"
-                        height="20px"
-                        style={{ paddingTop: "5px", marginRight: "5px" }}
-                      />
+                      <a
+                        className={classes.link}
+                        href={option.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src={option.img}
+                          alt=""
+                          width="18px"
+                          height="20px"
+                          style={{ paddingTop: "5px", marginRight: "5px" }}
+                        />
 
-                      {option.title}
-                    </a>
-                  </ListItem>
-                ))}
-              </List>
-            ) : null}
-          </div>
+                        {option.title}
+                      </a>
+                    </ListItem>
+                  ))}
+                </List>
+              ) : null}
+            </div>
+          )}
 
           {/* 👤 Profile icon  */}
           {user && (
@@ -299,87 +300,90 @@ export default function MainBar() {
         </Toolbar>
       </AppBar>
 
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <div
-            className={classes.drawerHeaderUser}
-            style={{ fontWeight: "bold" }}
-          >
-            Hi, {user.displayName}
-          </div>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon className="actionIcon" />
-          </IconButton>
-        </div>
-        <Divider />
-        <div className="">
-          <div className={classes.search} style={{ margin: "10px" }}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+      {!pc && (
+        <Drawer
+          className={classes.drawer}
+          variant="persistent"
+          anchor="left"
+          open={open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.drawerHeader}>
+            <div
+              className={classes.drawerHeaderUser}
+              style={{ fontWeight: "bold" }}
+            >
+              Hi, {user.displayName}
             </div>
-            <InputBase
-              placeholder="Search Bookmarks"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              {...getInputProps()}
-              inputProps={{ "aria-label": "search" }}
-            />
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon style={{ color: "white" }} />
+            </IconButton>
           </div>
-          {groupedOptions.length > 0 ? (
-            <List {...getListboxProps()} className={classes.listbox1}>
-              {groupedOptions.map((option, index) => (
-                <ListItem
-                  {...getOptionProps({ option, index })}
-                  className={classes.list}
-                >
-                  <a
-                    className={classes.link}
-                    href={option.url}
-                    target="_blank"
-                    rel="noreferrer"
+          <Divider />
+          <div className="">
+            <div className={classes.search} style={{ margin: "10px" }}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search Bookmarks"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                {...getInputProps()}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </div>
+            {groupedOptions.length > 0 ? (
+              <List {...getListboxProps()} className={classes.listbox1}>
+                {groupedOptions.map((option, index) => (
+                  <ListItem
+                    {...getOptionProps({ option, index })}
+                    className={classes.list}
                   >
-                    <img
-                      src={option.img}
-                      alt=""
-                      width="18px"
-                      height="20px"
-                      style={{ paddingTop: "5px", marginRight: "5px" }}
-                    />
+                    <a
+                      className={classes.link}
+                      href={option.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={option.img}
+                        alt=""
+                        width="18px"
+                        height="20px"
+                        style={{ paddingTop: "5px", marginRight: "5px" }}
+                      />
 
-                    {option.title}
-                  </a>
-                </ListItem>
-              ))}
-            </List>
-          ) : null}
-        </div>
-        <Divider />
-        <List>
-          <ListItem button style={{ color: "#6a89cc" }} onClick={BhandleOpen}>
-            <ListItemIcon>
-              <BookmarkBorderIcon className="actionIcon" />
-            </ListItemIcon>
-            <ListItemText primary="Add Bookmark" />
-          </ListItem>
-          <ListItem button style={{ color: "#6a89cc" }} onClick={ChandleOpen}>
-            <ListItemIcon>
-              <CategoryIcon className="actionIcon" />
-            </ListItemIcon>
-            <ListItemText primary="Add Category" />
-          </ListItem>
-        </List>
-        <Divider />
-      </Drawer>
+                      {option.title}
+                    </a>
+                  </ListItem>
+                ))}
+              </List>
+            ) : null}
+          </div>
+          <Divider />
+          <List>
+            <ListItem button style={{ color: "#436BD9" }} onClick={BhandleOpen}>
+              <ListItemIcon>
+                <BookmarkBorderIcon className="actionIcon" />
+              </ListItemIcon>
+              <ListItemText primary="Add Bookmark" />
+            </ListItem>
+            <ListItem button style={{ color: "#436BD9" }} onClick={ChandleOpen}>
+              <ListItemIcon>
+                <CategoryIcon className="actionIcon" />
+              </ListItemIcon>
+              <ListItemText primary="Add Category" />
+            </ListItem>
+          </List>
+          <Divider />
+        </Drawer>
+      )}
+
       <AddBookmarkDialog open={openB} handleClose={BhandleClose} />
       <AddCategoryDialog open={openC} handleClose={ChandleClose} />
     </div>
