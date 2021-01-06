@@ -45,14 +45,14 @@ function AddForm() {
             }}
             variant="outlined"
             style={{ margin: "7px 0" }}
-            size="small"
+            // size="small"
           />
           <TextField
             label="Edit Title"
             variant="outlined"
             defaultValue="developer"
             style={{ margin: "7px 0" }}
-            size="small"
+            // size="small"
           />
 
           {/* select category  */}

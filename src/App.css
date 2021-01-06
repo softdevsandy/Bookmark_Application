@@ -3,7 +3,7 @@
   min-height: 100vh;
   color: white;
 }
-
+/* 
 .MuiToolbar-gutters {
   padding-right: 10px !important;
 }
@@ -20,7 +20,7 @@
   .MuiToolbar-regular {
     min-height: 0px !important;
   }
-}
+} */
 
 .MuiPopover-paper {
   color: #fff !important;
@@ -31,8 +31,8 @@
   color: #fff !important;
   background-color: #2d3436 !important;
 }
-
-.MuiIconButton-root {
+/* .............  */
+/* .MuiIconButton-root {
   padding: 5px !important;
 }
 
@@ -43,8 +43,8 @@
   .MuiTypography-h6 {
     padding-left: 0px !important;
   }
-}
-
+} */
+/* ............ */
 .makeStyles-drawer-8 {
   width: 0px !important;
 }

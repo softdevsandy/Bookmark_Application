@@ -57,7 +57,7 @@ function Signup() {
         updateUser(authUser);
       }
     });
-  });
+  }, []);
 
   return (
     <div className={classes.signUp}>

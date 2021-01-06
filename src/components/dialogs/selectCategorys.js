@@ -13,7 +13,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import AddIcon from "@material-ui/icons/Add";
-import AddCategoryDialog from "./addCategory";
 import { UserContext } from "../../contexts/userContext";
 
 const options = [
@@ -30,7 +29,7 @@ function ConfirmationDialogRaw(props) {
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
 
-  const { categoryHandler, Copen } = useContext(UserContext);
+  const { categoryHandler } = useContext(UserContext);
 
   React.useEffect(() => {
     if (!open) {
@@ -85,7 +84,6 @@ function ConfirmationDialogRaw(props) {
         >
           Add New Category
         </Button>
-        {Copen && <AddCategoryDialog />}
       </div>
       <DialogContent dividers>
         <RadioGroup
