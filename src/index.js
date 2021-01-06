@@ -5,10 +5,8 @@ import App from "./App";
 import UserContext from "./contexts/userContext";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <UserContext>
-      <App />
-    </UserContext>
-  </React.StrictMode>,
+  <UserContext>
+    <App />
+  </UserContext>,
   document.getElementById("root")
 );

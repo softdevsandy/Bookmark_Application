@@ -1,39 +1,46 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
+import React, { useContext } from "react";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Slide from "@material-ui/core/Slide";
+import IconButton from "@material-ui/core/IconButton";
+import Input from "@material-ui/core/Input";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import FormControl from "@material-ui/core/FormControl";
+import AddIcon from "@material-ui/icons/Add";
+import { UserContext } from "../../contexts/userContext";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+export default function AddCategoryDialog() {
+  const { Copen, categoryHandler } = useContext(UserContext);
 
-export default function AddCategoryDialog({ open, handleClose }) {
   return (
     <div>
       <Dialog
-        open={open}
-        TransitionComponent={Transition}
+        open={Copen}
         keepMounted
-        onClose={handleClose}
+        onClose={categoryHandler}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">
-          {"Use Google's location service?"}
+        <DialogTitle id="alert-dialog-slide-title" style={{ color: "#436BD9" }}>
+          Add Category
         </DialogTitle>
-        <DialogContent>fshhgkjhakjgh</DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Agree
-          </Button>
-        </DialogActions>
+
+        <DialogContent>
+          <FormControl>
+            <Input
+              id="category-field"
+              type="text"
+              placeholder="Enter the Category Name"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton aria-label="category" edge="end">
+                    <AddIcon className="actionIcon" />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </DialogContent>
       </Dialog>
     </div>
   );

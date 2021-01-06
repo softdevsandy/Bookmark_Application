@@ -22,6 +22,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import AddBookmarkDialog from "./dialogs/addBookmark";
 import AddCategoryDialog from "./dialogs/addCategory";
+import clsx from "clsx";
 
 const drawerWidth = 250;
 
@@ -92,8 +93,6 @@ const useStyles = makeStyles((theme) => ({
   listbox: {
     display: "block",
     padding: 5,
-    marginLeft: 24,
-    marginTop: 5,
     width: 240,
     borderRadius: "5px",
     listStyleType: "none",
@@ -104,21 +103,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     maxHeight: 250,
   },
-  listbox1: {
-    display: "block",
-    padding: 5,
-    marginLeft: 5,
-    marginTop: 0,
-    width: 240,
-    borderRadius: "5px",
-    listStyleType: "none",
-    zIndex: 1,
-    position: "absolute",
-    listStyle: "none",
-    backgroundColor: "#4C585C",
-    overflow: "auto",
-    maxHeight: 250,
-  },
+  listbox1: { marginLeft: 24, marginTop: 5 },
+  listbox2: { marginLeft: 5, marginTop: 0 },
   list: {
     cursor: "pointer",
     padding: 0,
@@ -137,11 +123,8 @@ export default function Main() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleDrawer = () => {
+    setOpen(!open);
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -155,7 +138,15 @@ export default function Main() {
     setAnchorEl(null);
   };
 
-  const { user, updateUser, pc } = useContext(UserContext);
+  const {
+    user,
+    updateUser,
+    pc,
+    bookmarkHandler,
+    categoryHandler,
+    Bopen,
+    Copen,
+  } = useContext(UserContext);
   const signOut = () => {
     firebase
       .auth()
@@ -169,6 +160,16 @@ export default function Main() {
       });
   };
 
+  const bHandler = () => {
+    handleDrawer();
+    bookmarkHandler();
+  };
+
+  const cHandler = () => {
+    handleDrawer();
+    categoryHandler();
+  };
+
   const {
     getInputProps,
     getListboxProps,
@@ -180,21 +181,6 @@ export default function Main() {
     getOptionLabel: (option) => option.title,
   });
 
-  const [openB, setOpenB] = React.useState(false);
-  const [openC, setOpenC] = React.useState(false);
-
-  const BhandleOpen = () => {
-    setOpenB(true);
-  };
-  const BhandleClose = () => {
-    setOpenB(false);
-  };
-  const ChandleOpen = () => {
-    setOpenC(true);
-  };
-  const ChandleClose = () => {
-    setOpenC(false);
-  };
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -204,7 +190,7 @@ export default function Main() {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={handleDrawer}
               edge="start"
             >
               <MenuIcon />
@@ -215,6 +201,7 @@ export default function Main() {
             My Bookmark's
           </Typography>
 
+          {/* Search box  */}
           {pc && (
             <div>
               <div className={classes.search}>
@@ -232,7 +219,10 @@ export default function Main() {
                 />
               </div>
               {groupedOptions.length > 0 ? (
-                <List {...getListboxProps()} className={classes.listbox}>
+                <List
+                  {...getListboxProps()}
+                  className={clsx(classes.listbox, classes.listbox1)}
+                >
                   {groupedOptions.map((option, index) => (
                     <ListItem
                       {...getOptionProps({ option, index })}
@@ -303,21 +293,21 @@ export default function Main() {
       {!pc && (
         <Drawer
           className={classes.drawer}
-          variant="persistent"
           anchor="left"
           open={open}
           classes={{
             paper: classes.drawerPaper,
           }}
+          onClose={handleDrawer}
         >
           <div className={classes.drawerHeader}>
             <div
               className={classes.drawerHeaderUser}
               style={{ fontWeight: "bold" }}
             >
-              Hi, {user.displayName}
+              Hi, {user ? user.displayName : "User"}
             </div>
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton onClick={handleDrawer}>
               <ChevronLeftIcon style={{ color: "white" }} />
             </IconButton>
           </div>
@@ -338,7 +328,10 @@ export default function Main() {
               />
             </div>
             {groupedOptions.length > 0 ? (
-              <List {...getListboxProps()} className={classes.listbox1}>
+              <List
+                {...getListboxProps()}
+                className={clsx(classes.listbox, classes.listbox2)}
+              >
                 {groupedOptions.map((option, index) => (
                   <ListItem
                     {...getOptionProps({ option, index })}
@@ -367,13 +360,13 @@ export default function Main() {
           </div>
           <Divider />
           <List>
-            <ListItem button style={{ color: "#436BD9" }} onClick={BhandleOpen}>
+            <ListItem button style={{ color: "#436BD9" }} onClick={bHandler}>
               <ListItemIcon>
                 <BookmarkBorderIcon className="actionIcon" />
               </ListItemIcon>
               <ListItemText primary="Add Bookmark" />
             </ListItem>
-            <ListItem button style={{ color: "#436BD9" }} onClick={ChandleOpen}>
+            <ListItem button style={{ color: "#436BD9" }} onClick={cHandler}>
               <ListItemIcon>
                 <CategoryIcon className="actionIcon" />
               </ListItemIcon>
@@ -384,8 +377,8 @@ export default function Main() {
         </Drawer>
       )}
 
-      <AddBookmarkDialog open={openB} handleClose={BhandleClose} />
-      <AddCategoryDialog open={openC} handleClose={ChandleClose} />
+      {Bopen && <AddBookmarkDialog />}
+      {Copen && <AddCategoryDialog />}
     </div>
   );
 }

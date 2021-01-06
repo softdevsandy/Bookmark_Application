@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import CategoryIcon from "@material-ui/icons/Category";
 import AddBookmarkDialog from "./dialogs/addBookmark";
 import AddCategoryDialog from "./dialogs/addCategory";
+import { UserContext } from "../contexts/userContext";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -15,41 +16,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 function ActionButtons() {
   const classes = useStyles();
-
-  const [openB, setOpenB] = React.useState(false);
-  const [openC, setOpenC] = React.useState(false);
-
-  const BhandleOpen = () => {
-    setOpenB(true);
-  };
-  const BhandleClose = () => {
-    setOpenB(false);
-  };
-  const ChandleOpen = () => {
-    setOpenC(true);
-  };
-  const ChandleClose = () => {
-    setOpenC(false);
-  };
+  const { Bopen, Copen, bookmarkHandler, categoryHandler } = useContext(
+    UserContext
+  );
 
   return (
     <div>
       <Button
         className={classes.button}
         startIcon={<BookmarkBorderIcon className="actionIcon" />}
-        onClick={BhandleOpen}
+        onClick={bookmarkHandler}
       >
         Add Bookmark
       </Button>
       <Button
         className={classes.button}
         startIcon={<CategoryIcon className="actionIcon" />}
-        onClick={ChandleOpen}
+        onClick={categoryHandler}
       >
         Add Category
       </Button>
-      <AddBookmarkDialog open={openB} handleClose={BhandleClose} />
-      <AddCategoryDialog open={openC} handleClose={ChandleClose} />
+      {Bopen && <AddBookmarkDialog />}
+      {Copen && <AddCategoryDialog />}
     </div>
   );
 }

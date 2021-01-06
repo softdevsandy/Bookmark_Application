@@ -5,6 +5,7 @@ import { UserContext } from "../contexts/userContext";
 
 function Home() {
   const { pc } = useContext(UserContext);
+
   return (
     <div>
       <MainBar />
@@ -13,5 +14,4 @@ function Home() {
     </div>
   );
 }
-
 export default Home;

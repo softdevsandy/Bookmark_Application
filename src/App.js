@@ -17,7 +17,10 @@ function App() {
   const { user } = useContext(UserContext);
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">{user ? <Home /> : <Signup />}</div>
+      <div className="App">
+        <Home />
+        {/* {user ? <Home /> : <Signup />} */}
+      </div>
       <CssBaseline />
     </ThemeProvider>
   );
