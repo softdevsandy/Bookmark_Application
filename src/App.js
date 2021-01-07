@@ -5,16 +5,16 @@ import { UserContext } from "./contexts/userContext";
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 
 function App() {
-  const { user } = useContext(UserContext);
+  const { user, Theme } = useContext(UserContext);
 
   const theme = createMuiTheme({
     palette: {
       primary: {
         // Mainbar
-        main: "#2d3436",
+        main: Theme.appColor,
       },
       warning: {
-        main: "#436BD9",
+        main: Theme.cardColor,
       },
       grey: {
         // Link
@@ -23,7 +23,7 @@ function App() {
         600: "#575C5C",
       },
       background: {
-        default: "#2C3232",
+        default: Theme.backGround,
       },
     },
   });

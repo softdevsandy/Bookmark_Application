@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiIconButton-root, .MuiDialogTitle-root": {
       color: theme.palette.warning.main,
     },
+    "& .MuiFormControlLabel-root":{
+      color: "white",
+    }
   },
   paper: {
     width: "80%",
