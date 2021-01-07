@@ -10,13 +10,13 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import CategoryIcon from "@material-ui/icons/Category";
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import firebase from "firebase";
 import { UserContext } from "../contexts/userContext";
 import { Avatar, MenuItem, Menu } from "@material-ui/core";
@@ -32,6 +32,28 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    "& .MuiDrawer-paper": {
+      backgroundColor: theme.palette.primary.main,
+      color: "white",
+    },
+  },
+  menu: {
+    "& .MuiPopover-paper": {
+      backgroundColor: theme.palette.primary.main,
+    },
+  },
+  nav: {
+    color: theme.palette.warning.main,
+    height: "60px",
+    "& .MuiSvgIcon-root": {
+      color: theme.palette.warning.main,
+    },
+    "& .MuiTypography-root": {
+      fontSize: "18px",
+    },
+    "& .MuiListItemText-root": {
+      marginTop: 0,
+    },
   },
   tool: {
     paddingRight: "7px",
@@ -88,12 +110,19 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
     position: "absolute",
     listStyle: "none",
-    backgroundColor: "#4C585C",
+    backgroundColor: theme.palette.grey[600],
     overflow: "auto",
     maxHeight: 250,
   },
-  listbox1: { marginLeft: 24, marginTop: 5, width: 240 },
-  listbox2: { marginLeft: 5, marginTop: 0, width: 230 },
+  listbox1: {
+    marginLeft: 24,
+    marginTop: 5,
+    width: 235,
+    [theme.breakpoints.up("md")]: {
+      width: 237,
+    },
+  },
+  listbox2: { marginLeft: 5, marginTop: -5, width: 225 },
   list: {
     cursor: "pointer",
     padding: 0,
@@ -104,15 +133,15 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     height: "100%",
     width: "100%",
-    color: "white",
+    color: theme.palette.grey[50],
   },
   delete: {
-    color: "#d63031",
+    color: theme.palette.secondary.main,
     fontWeight: "bold",
   },
 
   menuButton: {
-    marginRight: 16,
+    marginRight: theme.spacing(1.7),
   },
   drawer: {
     width: drawerWidth,
@@ -244,8 +273,10 @@ export default function Home() {
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
+
                 <InputBase
                   placeholder="Search Bookmarks"
+                  type="search"
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -314,8 +345,12 @@ export default function Home() {
                   }}
                   open={open1}
                   onClose={handleClose}
+                  className={classes.menu}
                 >
-                  <MenuItem onClick={signOut} style={{ fontWeight: "bold" }}>
+                  <MenuItem
+                    onClick={signOut}
+                    style={{ fontWeight: "bold", color: "white" }}
+                  >
                     Sign Out
                   </MenuItem>
                   <MenuItem onClick={handleClose} className={classes.delete}>
@@ -347,24 +382,29 @@ export default function Home() {
 
           {open ? (
             <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon style={{ color: "white" }} />
+              <KeyboardArrowLeftIcon
+                style={{ fontSize: "28", color: "white" }}
+              />
             </IconButton>
           ) : (
             <IconButton onClick={handleDrawerOpen}>
-              <ChevronRightIcon style={{ color: "white" }} />
+              <KeyboardArrowRightIcon
+                style={{ fontSize: "28", color: "white" }}
+              />
             </IconButton>
           )}
         </div>
         <Divider />
 
         {!pc && (
-          <div className="drawerSearch">
+          <div className="">
             <div className={classes.search} style={{ margin: "10px" }}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
               <InputBase
                 placeholder="Search Bookmarks"
+                type="search"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -408,31 +448,23 @@ export default function Home() {
 
         <Divider />
         <List>
-          <ListItem
-            button
-            style={{ color: "#436BD9", height: "60px" }}
-            onClick={bHandler}
-          >
+          <ListItem button className={classes.nav} onClick={bHandler}>
             <ListItemIcon>
-              <BookmarkBorderIcon className="actionIcon" />
+              <AddCircleIcon className="actionIcon" />
             </ListItemIcon>
             <ListItemText
               primary="Add Bookmark"
-              style={{ height: "20px", overflow: "hidden" }}
+              style={{ height: "22px", overflow: "hidden" }}
             />
           </ListItem>
-          <ListItem
-            button
-            style={{ color: "#436BD9", height: "60px" }}
-            onClick={cHandler}
-          >
+          <ListItem button className={classes.nav} onClick={cHandler}>
             <ListItemIcon>
-              <CategoryIcon className="actionIcon" />
+              <AddToPhotosIcon className="actionIcon" />
             </ListItemIcon>
 
             <ListItemText
               primary="Add Category"
-              style={{ height: "20px", overflow: "hidden" }}
+              style={{ height: "22px", overflow: "hidden" }}
             />
           </ListItem>
         </List>

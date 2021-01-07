@@ -11,6 +11,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     marginTop: "15px",
+    "& .MuiFormLabel-root": {
+      color: "white",
+    },
+    "& .MuiFormLabel-root.Mui-focused": {
+      color: "white",
+    },
+    "& .MuiTypography-colorTextSecondary": {
+      color: "white",
+      marginLeft: "5px",
+    },
   },
   fabButton: {
     zIndex: 1,
@@ -22,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     display: "flex",
     justifyContent: "flex-end",
+  },
+  color: {
+    color: theme.palette.warning.main,
   },
 }));
 
@@ -68,7 +81,7 @@ function AddForm() {
         >
           Cancel
         </Button>
-        <Button style={{ color: "#436BD9" }}>Ok</Button>
+        <Button className={classes.color}>Ok</Button>
       </div>
     </>
   );

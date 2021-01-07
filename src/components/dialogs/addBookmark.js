@@ -9,9 +9,32 @@ import FormControl from "@material-ui/core/FormControl";
 import SearchIcon from "@material-ui/icons/Search";
 import AddForm from "./addForm";
 import { UserContext } from "../../contexts/userContext";
-// import SimpleBackdrop from "./Backdrop";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiPaper-root": {
+      backgroundColor: "#2d3436",
+      width: "310px",
+    },
+    "& .MuiDialog-paperScrollPaper": {
+      paddingBottom: "15px",
+    },
+    "& .MuiInputBase-input": {
+      color: "white",
+    },
+
+    "& .MuiFormControl-root": {
+      width: "100%",
+    },
+    "& .MuiIconButton-root, .MuiDialogTitle-root": {
+      color: theme.palette.warning.main,
+    },
+  },
+}));
 
 export default function AddBookmarkDialog() {
+  const classes = useStyles();
   const { Bopen, bookmarkHandler } = useContext(UserContext);
   const [openDrop, setOpenDrop] = React.useState(false);
   const handleSearch = () => {
@@ -26,10 +49,9 @@ export default function AddBookmarkDialog() {
         onClose={bookmarkHandler}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
+        className={classes.root}
       >
-        <DialogTitle id="alert-dialog-slide-title" style={{ color: "#436BD9" }}>
-          Add Bookmark
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">Add Bookmark</DialogTitle>
 
         <DialogContent>
           <FormControl>

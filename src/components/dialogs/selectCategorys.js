@@ -15,6 +15,29 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import AddIcon from "@material-ui/icons/Add";
 import { UserContext } from "../../contexts/userContext";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& .MuiPaper-root": {
+      backgroundColor: theme.palette.primary.main,
+      width: "310px",
+    },
+    "& .MuiDialog-paperScrollPaper": {
+      paddingBottom: "15px",
+    },
+    "& .MuiIconButton-root, .MuiDialogTitle-root": {
+      color: theme.palette.warning.main,
+    },
+  },
+  paper: {
+    width: "80%",
+    maxHeight: 400,
+  },
+  color: {
+    color: theme.palette.warning.main,
+  },
+}));
+
 const options = [
   "Personal",
   "Atria",
@@ -25,6 +48,7 @@ const options = [
 ];
 
 function ConfirmationDialogRaw(props) {
+  const classes = useStyles();
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
@@ -64,10 +88,12 @@ function ConfirmationDialogRaw(props) {
       aria-labelledby="confirmation-dialog-title"
       open={open}
       {...other}
+      className={classes.root}
     >
       <DialogTitle
         id="confirmation-dialog-title"
-        style={{ color: "#436BD9", paddingBottom: "0px" }}
+        style={{ paddingBottom: "0px" }}
+        className={classes.color}
       >
         Bookmark Categories
       </DialogTitle>
@@ -80,7 +106,7 @@ function ConfirmationDialogRaw(props) {
           color="primary"
           size="small"
           startIcon={<AddIcon />}
-          style={{ color: "#436BD9" }}
+          className={classes.color}
         >
           Add New Category
         </Button>
@@ -107,7 +133,7 @@ function ConfirmationDialogRaw(props) {
         <Button autoFocus onClick={handleCancel} style={{ color: "#7A848A" }}>
           Cancel
         </Button>
-        <Button onClick={handleOk} style={{ color: "#436BD9" }}>
+        <Button onClick={handleOk} className={classes.color}>
           Ok
         </Button>
       </DialogActions>
@@ -120,16 +146,6 @@ ConfirmationDialogRaw.propTypes = {
   open: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
 };
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  paper: {
-    width: "80%",
-    maxHeight: 400,
-  },
-}));
 
 export default function ConfirmationDialog() {
   const classes = useStyles();
@@ -160,7 +176,8 @@ export default function ConfirmationDialog() {
           <ListItemText
             primary="Select Category"
             secondary={value}
-            style={{ color: "#436BD9", margin: "0px" }}
+            className={classes.color}
+            style={{ margin: "0px" }}
           />
         </ListItem>
         <ConfirmationDialogRaw

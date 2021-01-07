@@ -8,8 +8,32 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import AddIcon from "@material-ui/icons/Add";
 import { UserContext } from "../../contexts/userContext";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiPaper-root": {
+      backgroundColor: "#2d3436",
+      width: "310px",
+    },
+    "& .MuiDialog-paperScrollPaper": {
+      paddingBottom: "15px",
+    },
+    "& .MuiInputBase-input": {
+      color: "white",
+    },
+
+    "& .MuiFormControl-root": {
+      width: "100%",
+    },
+    "& .MuiIconButton-root, .MuiDialogTitle-root": {
+      color: theme.palette.warning.main,
+    },
+  },
+}));
 
 export default function AddCategoryDialog() {
+  const classes = useStyles();
   const { Copen, categoryHandler } = useContext(UserContext);
 
   return (
@@ -20,10 +44,9 @@ export default function AddCategoryDialog() {
         onClose={categoryHandler}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
+        className={classes.root}
       >
-        <DialogTitle id="alert-dialog-slide-title" style={{ color: "#436BD9" }}>
-          Add Category
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">Add Category</DialogTitle>
 
         <DialogContent>
           <FormControl>
