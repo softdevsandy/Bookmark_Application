@@ -1,15 +1,18 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import Box from "./Card";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: "3px 9px",
+  },
+}));
 
 function Cards() {
+  const classes = useStyles();
   return (
-    <div>
-      {/* <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper>xs=12</Paper>
-        </Grid>
-      </Grid> */}
+    <div className={classes.root}>
+      <Box />
     </div>
   );
 }

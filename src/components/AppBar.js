@@ -20,8 +20,8 @@ import ConfirmDelete from "./dialogs/ConfirmDelete";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    margin: "5px",
-    width: "auto",
+    // margin: "5px",
+    // width: "auto",
     "& .MuiDrawer-paper": {
       backgroundColor: theme.palette.primary.main,
       color: "white",
@@ -204,7 +204,7 @@ function MainBar() {
 
   return (
     <>
-      <AppBar position="static" className={classes.root}>
+      <AppBar position="fixed" className={classes.root}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             color="inherit"
@@ -316,6 +316,7 @@ function MainBar() {
           )}
         </Toolbar>
       </AppBar>
+      <Toolbar style={{ marginBottom: "10px" }} />
       <LeftDrawer open={openDrawer} toggleDrawer={toggleDrawer} />
       <ThemeDialog
         open={openDailog}
