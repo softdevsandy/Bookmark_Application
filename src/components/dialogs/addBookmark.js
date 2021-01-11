@@ -12,6 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import AddForm from "./addForm";
 import { UserContext } from "../../contexts/userContext";
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
       width: "310px",
     },
     "& .MuiDialog-paperScrollPaper": {
-      paddingBottom: "15px",
+      paddingBottom: "0",
     },
     "& .MuiInputBase-input": {
       color: "white",
@@ -37,6 +38,18 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: "#fff",
   },
+  button: {
+    display: "flex",
+    justifyContent: "flex-end",
+    "& .MuiButton-root": {
+      minWidth: "0px",
+      lineHeight: "0px",
+    },
+  },
+  color: {
+    color: theme.palette.warning.main,
+    padding: "20px 0px 10px 0px",
+  },
 }));
 
 export default function AddBookmarkDialog() {
@@ -47,6 +60,7 @@ export default function AddBookmarkDialog() {
   const [error, setError] = React.useState("");
 
   const [imgUrl, setimgUrl] = React.useState("");
+  const [url, setUrl] = React.useState("");
   const [input, setInput] = React.useState("");
   const [title, setTitle] = React.useState("");
 
@@ -69,6 +83,7 @@ export default function AddBookmarkDialog() {
         var url = new URL(inp);
         var domain = url.origin;
 
+        setUrl(url.href);
         let imageUrl = `${domain}/favicon.ico`;
 
         function imageExists(url) {
@@ -117,10 +132,10 @@ export default function AddBookmarkDialog() {
 
   React.useEffect(() => {
     if (title) {
-      setData({ title: title, input: input, imgUrl: imgUrl });
+      setData({ title: title, input: url, imgUrl: imgUrl });
       setOpenForm(true);
     }
-  }, [title, imgUrl, input]);
+  }, [title, imgUrl, url]);
 
   return (
     <div>
@@ -133,7 +148,6 @@ export default function AddBookmarkDialog() {
         className={classes.root}
       >
         <DialogTitle id="alert-dialog-slide-title">Add Bookmark</DialogTitle>
-
         <DialogContent>
           <FormControl>
             <Input
@@ -160,8 +174,17 @@ export default function AddBookmarkDialog() {
           <Backdrop className={classes.backdrop} open={openDrop}>
             <CircularProgress color="inherit" />
           </Backdrop>
-          {openForm && <AddForm data={data} />}
-        </DialogContent>
+
+          {openForm ? (
+            <AddForm data={data} />
+          ) : (
+            <div className={classes.button}>
+              <Button className={classes.color} onClick={bookmarkHandler}>
+                Close
+              </Button>
+            </div>
+          )}
+        </DialogContent>{" "}
       </Dialog>
     </div>
   );

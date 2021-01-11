@@ -20,32 +20,28 @@ export default function AutoGrid() {
   React.useEffect(() => {
     let i, j;
     let list1 = [];
-    // let list2 = [];
 
     if (bookmarks) {
+      setCategories([]);
       for (i = 0; i < categoryList.length; i++) {
         for (j = 0; j < bookmarks.length; j++) {
           if (categoryList[i] === bookmarks[j].category) {
             list1.push(bookmarks[j]);
           }
         }
-        // console.log(list1);
+
         if (list1.length !== 0) {
           const newData = {
             id: uuidv4(),
             category: categoryList[i],
             bookmarks: list1,
           };
-          // list2.push(newData);
           setCategories((categories) => [...categories, newData]);
           list1 = [];
-          // list2 = [];
         }
       }
     }
   }, [bookmarks]);
-
-  // console.log(categories);
 
   return (
     <div className={classes.root}>

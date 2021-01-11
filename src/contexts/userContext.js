@@ -24,30 +24,37 @@ const UserProvider = ({ children }) => {
     setTheme(theme);
   };
 
-  const [bookmarks, setData] = React.useState(null);
-  const [categoryList, setCategoryList] = React.useState([
-    "python",
-    "javascript",
-    "C++",
-  ]);
+  const [bookmarks, setData] = React.useState([]);
+  const [categoryList, setCategoryList] = React.useState(["My Bookmarks"]);
 
   const updateCategories = (value) => {
-    console.log(value);
     setCategoryList([value, ...categoryList]);
   };
 
-  const getData = async () => {
-    await fetch("/data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      });
+  const updateBookmarks = (data) => {
+    setData([data, ...bookmarks]);
   };
 
-  React.useEffect(() => {
-    getData();
-  }, []);
+  // console.log(bookmarks);
 
+  // const getData = async () => {
+  //   await fetch("/data.json")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setData(data);
+  //     });
+  // };
+
+  // React.useEffect(() => {
+  //   getData();
+  // }, []);
+
+  const [stateSnack, setstateSnack] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+    msg: "",
+  });
   const [Bopen, setBopen] = useState(false);
   const [Copen, setCopen] = useState(false);
   const bookmarkHandler = () => {
@@ -56,7 +63,13 @@ const UserProvider = ({ children }) => {
   const categoryHandler = () => {
     setCopen(!Copen);
   };
+  const handleClose = () => {
+    setstateSnack({ ...stateSnack, open: false });
+  };
 
+  const handlerOpen = (msg) => {
+    setstateSnack({ open: true, vertical: "top", horizontal: "center", msg });
+  };
   // ...
 
   const [user, setUser] = useState(null);
@@ -71,9 +84,13 @@ const UserProvider = ({ children }) => {
         bookmarks,
         categoryList,
         updateCategories,
+        updateBookmarks,
         updateUser,
         Bopen,
         Copen,
+        stateSnack,
+        handleClose,
+        handlerOpen,
         bookmarkHandler,
         categoryHandler,
         colors,

@@ -6,6 +6,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from "@material-ui/core/styles";
 import ConfirmationDialog from "./selectCategorys";
 import { UserContext } from "../../contexts/userContext";
+import { v4 as uuidv4 } from "uuid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,14 +40,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddForm({ data }) {
-  const { bookmarkHandler } = useContext(UserContext);
+  const { bookmarkHandler, updateBookmarks, handlerOpen } = useContext(
+    UserContext
+  );
   const classes = useStyles();
+
+  const [editTitle, setEditTitle] = React.useState(data.title);
+  const [category, setCategory] = React.useState("");
+
+  const handlerSubmit = () => {
+    var newBookmark = {
+      id: uuidv4(),
+      title: editTitle,
+      url: data.input,
+      category,
+      img: data.imgUrl,
+    };
+
+    // console.log(newBookmark);
+    updateBookmarks(newBookmark);
+    handlerOpen("Bookmark successfully added!");
+    bookmarkHandler();
+  };
+
+  const changeCategory = (value) => {
+    setCategory(value);
+  };
+
   return (
     <>
       <div className={classes.root}>
         <FormControl style={{ padding: "0" }}>
           <Avatar
-            alt={data.title}
+            alt={editTitle}
             src={data.imgUrl}
             className={classes.fabButton}
           />
@@ -63,13 +89,14 @@ function AddForm({ data }) {
           <TextField
             label="Edit Title"
             variant="outlined"
-            defaultValue={data.title}
+            defaultValue={editTitle}
+            onChange={(e) => setEditTitle(e.target.value)}
             style={{ margin: "7px 0" }}
             // size="small"
           />
 
           {/* select category  */}
-          <ConfirmationDialog />
+          <ConfirmationDialog changeCategory={changeCategory} />
           {/* ....  */}
         </FormControl>
       </div>
@@ -81,7 +108,9 @@ function AddForm({ data }) {
         >
           Cancel
         </Button>
-        <Button className={classes.color}>Ok</Button>
+        <Button className={classes.color} onClick={handlerSubmit}>
+          Ok
+        </Button>
       </div>
     </>
   );

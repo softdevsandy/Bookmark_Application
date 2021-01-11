@@ -28,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiIconButton-root, .MuiDialogTitle-root": {
       color: theme.palette.warning.main,
     },
-    "& .MuiFormControlLabel-root":{
+    "& .MuiFormControlLabel-root": {
       color: "white",
-    }
+    },
   },
   paper: {
     width: "80%",
@@ -41,17 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const options = [
-  "Personal",
-  "Atria",
-  "Callisto",
-  "Dione",
-  "Ganymede",
-  "Hangouts Call",
-];
-
 function ConfirmationDialogRaw(props) {
   const classes = useStyles();
+  const { categoryList } = useContext(UserContext);
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
@@ -82,6 +74,11 @@ function ConfirmationDialogRaw(props) {
     setValue(event.target.value);
   };
 
+  const openNewCategory = () => {
+    onClose();
+    categoryHandler();
+  };
+
   return (
     <Dialog
       disableBackdropClick
@@ -102,9 +99,7 @@ function ConfirmationDialogRaw(props) {
       </DialogTitle>
       <div style={{ padding: "5px 10px 5px 20px" }}>
         <Button
-          onClick={() => {
-            categoryHandler();
-          }}
+          onClick={openNewCategory}
           variant="contained"
           color="primary"
           size="small"
@@ -122,7 +117,7 @@ function ConfirmationDialogRaw(props) {
           value={value}
           onChange={handleChange}
         >
-          {options.map((option) => (
+          {categoryList.map((option) => (
             <FormControlLabel
               value={option}
               key={option}
@@ -150,10 +145,19 @@ ConfirmationDialogRaw.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-export default function ConfirmationDialog() {
+export default function ConfirmationDialog({ changeCategory }) {
   const classes = useStyles();
+  const { categoryList } = useContext(UserContext);
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("Personal");
+  const [value, setValue] = React.useState(categoryList[0]);
+
+  React.useEffect(() => {
+    changeCategory(value);
+  }, [value, changeCategory]);
+
+  React.useEffect(() => {
+    setValue(categoryList[0]);
+  }, [categoryList]);
 
   const handleClickListItem = () => {
     setOpen(true);

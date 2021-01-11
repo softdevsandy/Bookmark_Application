@@ -10,6 +10,8 @@ import AddIcon from "@material-ui/icons/Add";
 import { UserContext } from "../../contexts/userContext";
 import { makeStyles } from "@material-ui/core/styles";
 
+import Button from "@material-ui/core/Button";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiPaper-root": {
@@ -17,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
       width: "310px",
     },
     "& .MuiDialog-paperScrollPaper": {
-      paddingBottom: "15px",
+      paddingBottom: "0",
     },
     "& .MuiInputBase-input": {
       color: "white",
@@ -29,42 +31,52 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiIconButton-root, .MuiDialogTitle-root": {
       color: theme.palette.warning.main,
     },
+    "& .MuiButton-root": {
+      marginRight: "15px",
+    },
+  },
+
+  button: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  color: {
+    color: theme.palette.warning.main,
   },
 }));
 
 export default function AddCategoryDialog() {
   const classes = useStyles();
 
-  const { Copen, categoryHandler, categoryList, updateCategories } = useContext(
-    UserContext
-  );
+  const {
+    Copen,
+    categoryHandler,
+    categoryList,
+    updateCategories,
+    handlerOpen,
+  } = useContext(UserContext);
   const [state, setstate] = React.useState("");
-  const [ok, setOk] = React.useState(false);
-  const [error, setError] = React.useState(false);
-  const [blank, setBlank] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   const submitHabdler = (e) => {
     e.preventDefault();
+
     if (state) {
       if (categoryList.includes(state)) {
-        setBlank(false);
-        setOk(false);
-        setError(true);
+        setError("Category already exist !");
       } else {
+        handlerOpen("New category added!");
         updateCategories(state);
+        categoryHandler();
         setstate("");
-        setBlank(false);
-        setError(false);
-        setOk(true);
+        setError("");
       }
     } else {
-      setBlank(true);
-      setError(false);
-      setOk(false);
+      setError("Are you kidding me, Input is blank!!!");
     }
   };
 
-  console.log(categoryList);
+  // console.log(categoryList);
 
   return (
     <div>
@@ -77,7 +89,6 @@ export default function AddCategoryDialog() {
         className={classes.root}
       >
         <DialogTitle id="alert-dialog-slide-title">Add Category</DialogTitle>
-
         <DialogContent>
           <FormControl>
             <Input
@@ -99,16 +110,13 @@ export default function AddCategoryDialog() {
               }
             />
           </FormControl>
-          {ok && <span style={{ color: "green" }}>Successsfully added !</span>}{" "}
-          {error && (
-            <span style={{ color: "red" }}>Category already exist !</span>
-          )}
-          {blank && (
-            <span style={{ color: "red" }}>
-              Are you kidding me, Input is blank !
-            </span>
-          )}
-        </DialogContent>
+          {error && <span style={{ color: "red" }}>{error}</span>}
+        </DialogContent>{" "}
+        <div className={classes.button}>
+          <Button className={classes.color} onClick={categoryHandler}>
+            Close
+          </Button>
+        </div>
       </Dialog>
     </div>
   );
