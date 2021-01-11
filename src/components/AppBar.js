@@ -20,8 +20,6 @@ import ConfirmDelete from "./dialogs/ConfirmDelete";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    // margin: "5px",
-    // width: "auto",
     "& .MuiDrawer-paper": {
       backgroundColor: theme.palette.primary.main,
       color: "white",

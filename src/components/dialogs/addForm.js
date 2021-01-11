@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddForm() {
+function AddForm({ data }) {
   const { bookmarkHandler } = useContext(UserContext);
   const classes = useStyles();
   return (
@@ -46,13 +46,13 @@ function AddForm() {
       <div className={classes.root}>
         <FormControl style={{ padding: "0" }}>
           <Avatar
-            alt="Cindy Baker"
-            src="https://material-ui.com/static/images/avatar/3.jpg"
+            alt={data.title}
+            src={data.imgUrl}
             className={classes.fabButton}
           />
           <TextField
             label="URL"
-            defaultValue="softdevsandy.me"
+            defaultValue={data.input}
             InputProps={{
               readOnly: true,
             }}
@@ -63,7 +63,7 @@ function AddForm() {
           <TextField
             label="Edit Title"
             variant="outlined"
-            defaultValue="developer"
+            defaultValue={data.title}
             style={{ margin: "7px 0" }}
             // size="small"
           />

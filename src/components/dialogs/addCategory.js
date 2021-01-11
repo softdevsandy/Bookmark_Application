@@ -34,7 +34,37 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddCategoryDialog() {
   const classes = useStyles();
-  const { Copen, categoryHandler } = useContext(UserContext);
+
+  const { Copen, categoryHandler, categoryList, updateCategories } = useContext(
+    UserContext
+  );
+  const [state, setstate] = React.useState("");
+  const [ok, setOk] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [blank, setBlank] = React.useState(false);
+
+  const submitHabdler = (e) => {
+    e.preventDefault();
+    if (state) {
+      if (categoryList.includes(state)) {
+        setBlank(false);
+        setOk(false);
+        setError(true);
+      } else {
+        updateCategories(state);
+        setstate("");
+        setBlank(false);
+        setError(false);
+        setOk(true);
+      }
+    } else {
+      setBlank(true);
+      setError(false);
+      setOk(false);
+    }
+  };
+
+  console.log(categoryList);
 
   return (
     <div>
@@ -54,15 +84,30 @@ export default function AddCategoryDialog() {
               id="category-field"
               type="text"
               placeholder="Enter the Category Name"
+              value={state}
+              onChange={(e) => setstate(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton aria-label="category" edge="end">
+                  <IconButton
+                    onClick={submitHabdler}
+                    aria-label="category"
+                    edge="end"
+                  >
                     <AddIcon className="actionIcon" />
                   </IconButton>
                 </InputAdornment>
               }
             />
           </FormControl>
+          {ok && <span style={{ color: "green" }}>Successsfully added !</span>}{" "}
+          {error && (
+            <span style={{ color: "red" }}>Category already exist !</span>
+          )}
+          {blank && (
+            <span style={{ color: "red" }}>
+              Are you kidding me, Input is blank !
+            </span>
+          )}
         </DialogContent>
       </Dialog>
     </div>

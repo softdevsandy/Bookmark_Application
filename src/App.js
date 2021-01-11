@@ -30,8 +30,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div>
-        {/* <Home /> */}
-        {user ? <Home /> : <Signup />}
+        <Home />
+        {/* {user ? <Home /> : <Signup />} */}
       </div>
       <CssBaseline />
     </ThemeProvider>

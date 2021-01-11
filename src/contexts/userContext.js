@@ -24,6 +24,30 @@ const UserProvider = ({ children }) => {
     setTheme(theme);
   };
 
+  const [bookmarks, setData] = React.useState(null);
+  const [categoryList, setCategoryList] = React.useState([
+    "python",
+    "javascript",
+    "C++",
+  ]);
+
+  const updateCategories = (value) => {
+    console.log(value);
+    setCategoryList([value, ...categoryList]);
+  };
+
+  const getData = async () => {
+    await fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      });
+  };
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
   const [Bopen, setBopen] = useState(false);
   const [Copen, setCopen] = useState(false);
   const bookmarkHandler = () => {
@@ -33,24 +57,7 @@ const UserProvider = ({ children }) => {
     setCopen(!Copen);
   };
 
-  // ....
-  const bookmarks = [
-    {
-      title: "Google ",
-      url: "https://google.com",
-      img: "https://www.google.com/favicon.ico",
-    },
-    {
-      title: "Material-ui",
-      url: "https://material-ui.com",
-      img: "https://material-ui.com/static/icons/180x180.png",
-    },
-    {
-      title: "SoftDevSandy",
-      url: "https://softdevsandy.me",
-      img: "https://softdevsandy.me/favicon.ico",
-    },
-  ];
+  // ...
 
   const [user, setUser] = useState(null);
   const updateUser = (user) => {
@@ -62,6 +69,8 @@ const UserProvider = ({ children }) => {
       value={{
         user,
         bookmarks,
+        categoryList,
+        updateCategories,
         updateUser,
         Bopen,
         Copen,

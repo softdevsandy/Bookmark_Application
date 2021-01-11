@@ -14,8 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     color: theme.palette.warning.main,
-    marginLeft: "10px",
-    fontSize: "17px",
+    margin: "0px 10px",
+    fontSize: "16px",
+    padding: "0px",
   },
 }));
 function ActionButtons() {
