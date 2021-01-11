@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     color: theme.palette.warning.main,
-    margin: "0px 10px",
+    margin: "0px 15px",
     fontSize: "16px",
     padding: "0px",
   },

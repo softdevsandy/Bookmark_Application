@@ -95,7 +95,7 @@ export default function AddCategoryDialog() {
               id="category-field"
               type="text"
               placeholder="Enter the Category Name"
-              value={state}
+              value={state.charAt(0).toUpperCase() + state.slice(1)}
               onChange={(e) => setstate(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">

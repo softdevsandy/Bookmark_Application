@@ -154,7 +154,7 @@ export default function AddBookmarkDialog() {
               id="bookmark-field"
               type="text"
               placeholder="Enter the Domain Name"
-              value={input}
+              value={input.toLowerCase()}
               onChange={(e) => setInput(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">

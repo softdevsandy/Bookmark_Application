@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
   snack: {
     "& .MuiSnackbarContent-root": {
       backgroundColor: "#55efc4",
-      width: "auto",
       [theme.breakpoints.up("sm")]: {
         minWidth: "auto",
       },

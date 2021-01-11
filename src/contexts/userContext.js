@@ -1,4 +1,5 @@
 import React, { useState, createContext } from "react";
+import { db } from "../firebase";
 
 export const UserContext = createContext();
 
@@ -35,20 +36,6 @@ const UserProvider = ({ children }) => {
     setData([data, ...bookmarks]);
   };
 
-  // console.log(bookmarks);
-
-  // const getData = async () => {
-  //   await fetch("/data.json")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setData(data);
-  //     });
-  // };
-
-  // React.useEffect(() => {
-  //   getData();
-  // }, []);
-
   const [stateSnack, setstateSnack] = React.useState({
     open: false,
     vertical: "top",
@@ -71,6 +58,16 @@ const UserProvider = ({ children }) => {
     setstateSnack({ open: true, vertical: "top", horizontal: "center", msg });
   };
   // ...
+
+  React.useEffect(() => {
+    db.collection("data").onSnapshot((bookmark) => {
+      // const items = [];
+      // bookmark.forEach((doc) => {
+      //   items.push(doc.data());
+      // });
+      console.log(bookmark.docs);
+    });
+  }, []);
 
   const [user, setUser] = useState(null);
   const updateUser = (user) => {

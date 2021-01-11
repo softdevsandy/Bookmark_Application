@@ -44,11 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: "90%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
+    width: "auto",
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -85,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 250,
     marginLeft: 10,
     marginTop: -5,
-    width: 230,
+    width: "93%",
   },
   list: {
     cursor: "pointer",
